@@ -1,0 +1,36 @@
+version: 2
+
+models:
+  - name: oliver_dim_customer
+    description: "Contains customer information."
+
+  - name: oliver_dim_employee
+    description: "Contains employee information."
+
+  - name: oliver_dim_orderline
+    description: "Contains individual line items associated with customer orders."
+
+  - name: oliver_dim_orders
+    description: "Contains customer order information."
+
+  - name: oliver_dim_product
+    description: "Contains product information."
+
+  - name: oliver_dim_store
+    description: "Contains store information."
+
+  - name: stg_employee_certs
+    description: | 
+     "Contains employee certification records, including employee details and parsed certification 
+     information such as certification name, cost, and awarded date."
+
+  - name: fact_sales
+    description: |
+     "Contains sales transaction details, including customer, date, store, product, and employee dimension keys, 
+     quantities sold, unit prices, and total sales amounts."
+
+
+  - name: fact_certification 
+    description: | 
+      "Contains employee certification transactions linked to employee and date dimensions. The grain of this fact table is one row per employee certification 
+      completion, representing a single certification earned by an employee on a specific date, along with its associated certification cost."
