@@ -1,21 +1,17 @@
 {{ config(
     materialized = 'table',
     schema = 'dw_insurance'
-)}}
+) }}
 
-select
+SELECT
+    p.policy_key,
     cu.customer_key,
     a.agent_key,
     d.date_key,
-    c.call_duration_min,
-    c.issue_type,
-    c.resolution_status
-from {{ ref('stg_customer_service_interactions') }} c
-inner join {{ ref('dim_customer') }} cu
-    on c.customer_first_name = cu.firstname
-    and c.customer_last_name = cu.lastname
-inner join {{ ref('dim_agent') }} a
-    on c.agent_first_name = a.firstname
-    and c.agent_last_name = a.lastname
-inner join {{ ref('dim_date') }} d
-    on d.date_key = c.interaction_date
+    c.ClaimAmount
+FROM {{ source('insurance_landing', 'claims') }} c
+INNER JOIN {{ source('insurance_landing', 'policies') }} pd ON c.PolicyID = pd.PolicyID
+INNER JOIN {{ ref('dim_policy') }} p ON pd.PolicyID = p.policyid 
+INNER JOIN {{ ref('dim_customer') }} cu ON pd.CustomerID = cu.customerid 
+INNER JOIN {{ ref('dim_agent') }} a ON pd.AgentID = a.agentid 
+INNER JOIN {{ ref('dim_date') }} d ON d.date_day = c.ClaimDate
