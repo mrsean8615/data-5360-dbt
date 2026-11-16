@@ -6,18 +6,36 @@ models:
 
   - name: oliver_dim_employee
     description: "Contains employee information."
+    columns:
+      - name: employee_key
+        tests:
+          - unique
 
   - name: oliver_dim_orderline
     description: "Contains individual line items associated with customer orders."
 
   - name: oliver_dim_orders
     description: "Contains customer order information."
-
+    columns:
+      - name: customer_id
+        description: "Foreign key to the order dimension"
+        tests:
+          - not_null
+        
   - name: oliver_dim_product
     description: "Contains product information."
 
   - name: oliver_dim_store
     description: "Contains store information."
+    columns:
+      - name: store_name
+        data_tests:
+          - accepted_values:
+              arguments:
+                values:
+                  - "East Gilbert"
+                  - "North Skagway"
+                  - "Franks Corner"
 
   - name: stg_employee_certs
     description: | 
@@ -28,6 +46,13 @@ models:
     description: |
      "Contains sales transaction details, including customer, date, store, product, and employee dimension keys, 
      quantities sold, unit prices, and total sales amounts."
+    columns:
+      - name: employee_key
+        tests: 
+          - relationships:
+              arguments:
+                to: ref('oliver_dim_employee')
+                field: employee_key
 
 
   - name: fact_certification 
