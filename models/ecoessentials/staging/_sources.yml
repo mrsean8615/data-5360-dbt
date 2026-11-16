@@ -1,0 +1,21 @@
+version: 2
+
+sources:
+  - name: salesforce
+    database: GROUP_1_PROJECT
+    schema: ECOESSENTIALS_GOOGLE_DRIVE
+    tables:
+      - name: marketing_emails
+
+  - name: transactional_db
+    database: GROUP_1_PROJECT
+    schema: ECOESSENTIALS_ECOESSENTIALS_TRANSACTIONAL_DB
+    tables:
+      - name: customer
+      - name: order
+        identifier: ORDER
+        quoting:
+          identifier: true
+      - name: order_line
+      - name: product
+      - name: promotional_campaign
